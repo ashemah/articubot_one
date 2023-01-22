@@ -4,6 +4,7 @@ from ament_index_python.packages import get_package_share_directory
 
 
 from launch import LaunchDescription
+from launch.actions import TimerAction
 from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 
@@ -55,18 +56,33 @@ def generate_launch_description():
                         output='screen')
 
 
-    diff_drive_spawner = Node(
-        package="controller_manager",
-        executable="spawner.py",
-        arguments=["diff_cont"],
+    delayed_controller_manager_spawner = TimerAction(
+        period=10.0,
+        actions=[
+            Node(
+                package="controller_manager",
+                executable="spawner.py",
+                arguments=["diff_cont"],
+            ),
+            Node(
+                package="controller_manager",
+                executable="spawner.py",
+                arguments=["joint_broad"],
+            )
+        ],
     )
 
-    joint_broad_spawner = Node(
-        package="controller_manager",
-        executable="spawner.py",
-        arguments=["joint_broad"],
-    )
+    # diff_drive_spawner = Node(
+    #     package="controller_manager",
+    #     executable="spawner.py",
+    #     arguments=["diff_cont"],
+    # )
 
+    # joint_broad_spawner = Node(
+    #     package="controller_manager",
+    #     executable="spawner.py",
+    #     arguments=["joint_broad"],
+    # )
 
     # Code for delaying a node (I haven't tested how effective it is)
     # 
@@ -93,6 +109,7 @@ def generate_launch_description():
         twist_mux,
         gazebo,
         spawn_entity,
-        diff_drive_spawner,
-        joint_broad_spawner
+        delayed_controller_manager_spawner,
+        # diff_drive_spawner,
+        # joint_broad_spawner
     ])
