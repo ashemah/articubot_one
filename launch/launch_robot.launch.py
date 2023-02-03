@@ -110,8 +110,7 @@ def generate_launch_description():
     camera = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             [
-                "realsense2_camera",
-                "realsense.launch.py",
+                os.path.join(["realsense2_camera", "launch", "realsense.launch.py"]),
             ]
         ),
         launch_arguments={"rgb_camera.profile": "640x480x30"}.items(),
