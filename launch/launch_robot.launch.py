@@ -110,7 +110,7 @@ def generate_launch_description():
     camera = Node(
         package="realsense2_camera",
         executable="realsense2_camera_node",
-        arguments=["rgb_camera.profile=640x480x30"],
+        arguments=["rgb_camera.profile", "640x480x30"],
     )
 
     pc2scan = Node(
