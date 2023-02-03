@@ -4,9 +4,9 @@ from ament_index_python.packages import get_package_share_directory
 
 
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription, TimerAction
+from launch.actions import IncludeLaunchDescription, TimerAction, DeclareLaunchArgument
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import Command
+from launch.substitutions import Command, TextSubstitution, LaunchConfiguration
 from launch.actions import RegisterEventHandler
 from launch.event_handlers import OnProcessStart
 
@@ -19,6 +19,10 @@ def generate_launch_description():
     # !!! MAKE SURE YOU SET THE PACKAGE NAME CORRECTLY !!!
 
     package_name = "articubot_one"  # <--- CHANGE ME
+
+    rgb_camera_profile_arg = DeclareLaunchArgument(
+        "rgb_camera_profile", default_value=TextSubstitution(text="640x480x30")
+    )
 
     rsp = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -110,7 +114,7 @@ def generate_launch_description():
     camera = Node(
         package="realsense2_camera",
         executable="realsense2_camera_node",
-        parameters=[{"rgb_camera.profile", "640x480x30"}],
+        parameters=[{"rgb_camera.profile", LaunchConfiguration("rgb_camera_profile")}],
     )
 
     pc2scan = Node(
@@ -138,6 +142,7 @@ def generate_launch_description():
     # Launch them all!
     return LaunchDescription(
         [
+            rgb_camera_profile_arg,
             rsp,
             joystick,
             twist_mux,
