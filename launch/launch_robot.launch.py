@@ -110,13 +110,11 @@ def generate_launch_description():
     camera = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             [
-                os.path.join(
-                    get_package_share_directory(package_name),
-                    "launch",
-                    "camera.launch.py",
-                )
+                "realsense2_camera",
+                "realsense.launch.py",
             ]
-        )
+        ),
+        launch_arguments={"rgb_camera.profile": "640x480x30"}.items(),
     )
 
     pc2scan = Node(
