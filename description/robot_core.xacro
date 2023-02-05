@@ -69,7 +69,7 @@
         <visual>
             <origin xyz="${chassis_length/2} 0 ${chassis_height/2}"/>
             <geometry>
-                <mesh filename="package://articubot_one/meshes/gazebo_turt_body_adj.stl" scale="0.001 0.001 0.001"/>
+                <mesh filename="package://articubot_one/meshes/gazebo_turt_body.dae" scale="0.001 0.001 0.001"/>
             </geometry>
             <material name="orange"/>
         </visual>
