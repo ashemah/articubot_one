@@ -4,11 +4,11 @@
     <xacro:include filename="inertial_macros.xacro"/>
 
 
-    <xacro:property name="chassis_length" value="0.220"/>
+    <xacro:property name="chassis_length" value="0.230"/>
     <xacro:property name="chassis_width" value="0.200"/>
     <xacro:property name="chassis_height" value="0.150"/>
     <xacro:property name="chassis_mass" value="1.0"/>
-    <xacro:property name="wheel_radius" value="0.0375"/>
+    <xacro:property name="wheel_radius" value="0.035"/>
     <xacro:property name="wheel_thickness" value="0.015"/>
     <xacro:property name="wheel_mass" value="0.05"/>
     <xacro:property name="wheel_offset_x" value="0.226"/>
