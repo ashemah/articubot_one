@@ -62,18 +62,15 @@ Visualization Manager:
           Value: true
       Marker Scale: 1
       Name: TF
-      Show Arrows: true
-      Show Axes: true
-      Show Names: true
+      Show Arrows: false
+      Show Axes: false
+      Show Names: false
       Tree:
         base_link:
           chassis:
-            caster_wheel:
-              {}
-          left_wheel:
-            {}
-          right_wheel:
-            {}
+            caster_wheel: {}
+          left_wheel: {}
+          right_wheel: {}
       Update Interval: 0
       Value: true
     - Alpha: 1
