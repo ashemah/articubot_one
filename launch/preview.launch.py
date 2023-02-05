@@ -11,10 +11,14 @@ def generate_launch_description():
     use_sim_time = LaunchConfiguration("use_sim_time", default="false")
     urdf_file_name = "robot.urdf.xacro"
 
-    print("urdf_file_name : {}".format(urdf_file_name))
-
-    urdf = os.path.join(
+    urdf_path = os.path.join(
         get_package_share_directory("articubot_one"), "description", urdf_file_name
+    )
+
+    print("urdf_file_name : {}".format(urdf_path))
+
+    config_path = os.path.join(
+        get_package_share_directory("articubot_one"), "config", "view_bot.rviz"
     )
 
     return LaunchDescription(
@@ -32,7 +36,7 @@ def generate_launch_description():
                 parameters=[
                     {
                         "use_sim_time": use_sim_time,
-                        "robot_description": Command(["xacro ", urdf]),
+                        "robot_description": Command(["xacro ", urdf_path]),
                     }
                 ],
             ),
@@ -47,6 +51,7 @@ def generate_launch_description():
                 executable="rviz2",
                 name="rviz2",
                 output="screen",
+                arguments=["-d", config_path],
             ),
         ]
     )
