@@ -68,7 +68,7 @@ def generate_launch_description():
             ]
         ),
         launch_arguments={
-            "extra_gazebo_args": "--ros-args --params-file " + gazebo_params_file
+            "extra_gazebo_args": "--verbose --ros-args --params-file " + gazebo_params_file
         }.items(),
     )
 
