@@ -2,35 +2,9 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
     <xacro:arg name="use_nominal_extrinsics" default="false" />
-    <xacro:include filename="$(find realsense2_description)/urdf/_d435i.urdf.xacro"/>
+    <xacro:include filename="$(find articubot_one)/urdf/_d435i.urdf.xacro"/>
 
     <xacro:sensor_d435i parent="base_link" use_nominal_extrinsics="$(arg use_nominal_extrinsics)">
         <origin xyz="0.058 0 0.09" rpy="0 0 0"/>
     </xacro:sensor_d435i>
-
-    <gazebo>
-      <plugin name="camera" filename="librealsense_gazebo_plugin.so">
-        <prefix>camera</prefix>
-        <depthUpdateRate>30.0</depthUpdateRate>
-        <colorUpdateRate>30.0</colorUpdateRate>
-        <infraredUpdateRate>1.0</infraredUpdateRate>
-        <depthTopicName>aligned_depth_to_color/image_raw</depthTopicName>
-        <depthCameraInfoTopicName>depth/camera_info</depthCameraInfoTopicName>
-        <colorTopicName>color/image_raw</colorTopicName>
-        <colorCameraInfoTopicName>color/camera_info</colorCameraInfoTopicName>
-        <infrared1TopicName>infra1/image_raw</infrared1TopicName>
-        <infrared1CameraInfoTopicName>infra1/camera_info</infrared1CameraInfoTopicName>
-        <infrared2TopicName>infra2/image_raw</infrared2TopicName>
-        <infrared2CameraInfoTopicName>infra2/camera_info</infrared2CameraInfoTopicName>
-        <colorOpticalframeName>camera_color_optical_frame</colorOpticalframeName>
-        <depthOpticalframeName>camera_depth_optical_frame</depthOpticalframeName>
-        <infrared1OpticalframeName>camera_left_ir_optical_frame</infrared1OpticalframeName>
-        <infrared2OpticalframeName>camera_right_ir_optical_frame</infrared2OpticalframeName>
-        <rangeMinDepth>0.3</rangeMinDepth>
-        <rangeMaxDepth>3.0</rangeMaxDepth>
-        <pointCloud>true</pointCloud>
-        <pointCloudTopicName>depth/color/points</pointCloudTopicName>
-        <pointCloudCutoff>0.3</pointCloudCutoff>
-      </plugin>    
-    </gazebo>
 </robot>
