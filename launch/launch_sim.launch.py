@@ -5,8 +5,9 @@ from ament_index_python.packages import get_package_share_directory
 
 from launch import LaunchDescription
 from launch.actions import TimerAction
-from launch.actions import IncludeLaunchDescription
+from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument
 from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch.substitutions import Command, TextSubstitution, LaunchConfiguration
 
 from launch_ros.actions import Node
 
@@ -17,6 +18,10 @@ def generate_launch_description():
     # !!! MAKE SURE YOU SET THE PACKAGE NAME CORRECTLY !!!
 
     package_name = "articubot_one"  # <--- CHANGE ME
+
+    rgb_camera_profile_arg = DeclareLaunchArgument(
+        "rgb_camera_profile", default_value=TextSubstitution(text="640x480x30")
+    )
 
     rsp = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -96,6 +101,18 @@ def generate_launch_description():
         ],
     )
 
+    camera = Node(
+        package="realsense2_camera",
+        executable="realsense2_camera_node",
+        parameters=[{"rgb_camera.profile", LaunchConfiguration("rgb_camera_profile")}],
+    )
+
+    pc2scan = Node(
+        package="pointcloud_to_laserscan",
+        executable="pointcloud_to_laserscan_node",
+        arguments=[],
+    )
+
     # diff_drive_spawner = Node(
     #     package="controller_manager",
     #     executable="spawner.py",
@@ -127,6 +144,9 @@ def generate_launch_description():
     # Launch them all!
     return LaunchDescription(
         [
+            rgb_camera_profile_arg,
+            camera,
+            pc2scan,
             rsp,
             joystick,
             twist_mux,
