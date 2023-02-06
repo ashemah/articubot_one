@@ -1,10 +1,9 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-    <xacro:arg name="use_nominal_extrinsics" default="false" />
-    <xacro:include filename="$(find articubot_one)/urdf/_d435i.urdf.xacro"/>
+    <xacro:include filename="$(find articubot_one)/description/_d435.urdf.xacro"/>
 
-    <xacro:sensor_d435i parent="base_link" use_nominal_extrinsics="$(arg use_nominal_extrinsics)">
+    <xacro:sensor_d435 parent="base_link">
         <origin xyz="0.058 0 0.09" rpy="0 0 0"/>
-    </xacro:sensor_d435i>
+    </xacro:sensor_d435>
 </robot>

@@ -145,7 +145,7 @@ def generate_launch_description():
     return LaunchDescription(
         [
             rgb_camera_profile_arg,
-            camera,
+            #camera,
             pc2scan,
             rsp,
             joystick,
