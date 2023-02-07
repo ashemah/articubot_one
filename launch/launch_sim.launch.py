@@ -23,6 +23,10 @@ def generate_launch_description():
         "rgb_camera_profile", default_value=TextSubstitution(text="640x480x30")
     )
 
+    param_config = os.path.join(
+        get_package_share_directory(package_name), "config", "di2lscan_params.yaml"
+    )
+
     rsp = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             [
@@ -110,27 +114,14 @@ def generate_launch_description():
     )
 
     pc2scan = Node(
-        package="pointcloud_to_laserscan",
-        executable="pointcloud_to_laserscan_node",
+        package="depthimage_to_laserscan",
+        node_executable="depthimage_to_laserscan_node",
+        node_name="depthimage_to_laserscan_node",
         remappings=[
-            ("cloud_in", "/depth/points"),
-            ("scan", "/scan")
+            ("depth", "/depth/image_rect_raw"),
+            ("depth_camera_info", "/depth/camera_info"),
         ],
-        parameters=[{
-            'target_frame': 'base_link',
-            'transform_tolerance': 0.01,
-            'min_height': 0.0,
-            'max_height': 1.0,
-            'angle_min': -1.5708,  # -M_PI/2
-            'angle_max': 1.5708,  # M_PI/2
-            'angle_increment': 0.0087,  # M_PI/360.0
-            'scan_time': 0.3333,
-            'range_min': 0.45,
-            'range_max': 4.0,
-            'use_inf': True,
-            'inf_epsilon': 1.0
-        }],
-        output="screen",
+        parameters=[param_config],
     )
 
     # diff_drive_spawner = Node(
