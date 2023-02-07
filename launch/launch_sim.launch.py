@@ -83,7 +83,7 @@ def generate_launch_description():
     spawn_entity = Node(
         package="gazebo_ros",
         executable="spawn_entity.py",
-        arguments=["-topic", "robot_description", "-entity", "my_bot"],
+        arguments=["-topic", "robot_description", "-entity", "my_bot", "-z", "0.1"],
         output="screen",
     )
 
@@ -112,7 +112,25 @@ def generate_launch_description():
     pc2scan = Node(
         package="pointcloud_to_laserscan",
         executable="pointcloud_to_laserscan_node",
-        arguments=[],
+        remappings=[
+            ("cloud_in", "/depth/points"),
+            ("scan", "/scan")
+        ],
+        parameters=[{
+            'target_frame': 'base_link',
+            'transform_tolerance': 0.01,
+            'min_height': 0.0,
+            'max_height': 1.0,
+            'angle_min': -1.5708,  # -M_PI/2
+            'angle_max': 1.5708,  # M_PI/2
+            'angle_increment': 0.0087,  # M_PI/360.0
+            'scan_time': 0.3333,
+            'range_min': 0.45,
+            'range_max': 4.0,
+            'use_inf': True,
+            'inf_epsilon': 1.0
+        }],
+        output="screen",
     )
 
     # diff_drive_spawner = Node(
