@@ -20,7 +20,7 @@ def generate_launch_description():
     package_name = "articubot_one"  # <--- CHANGE ME
 
     rgb_camera_profile_arg = DeclareLaunchArgument(
-        "rgb_camera_profile", default_value=TextSubstitution(text="640x480x30")
+        "rgb_camera_profile", default_value="640x480x30"
     )
 
     param_config = os.path.join(
@@ -118,15 +118,16 @@ def generate_launch_description():
             ]
         ),
         launch_arguments={
-            "rgb_camera.profile": LaunchConfiguration("rgb_camera_profile")
+            "rgb_camera.profile": LaunchConfiguration("rgb_camera_profile"),
+            "depth_module.profile": LaunchConfiguration("rgb_camera_profile"),
         }.items(),
     )
 
-#    camera = Node(
-#        package="realsense2_camera",
-#        executable="realsense2_camera_node",
-#        parameters=[{"rgb_camera.profile", LaunchConfiguration("rgb_camera_profile")}],
-#    )
+    #    camera = Node(
+    #        package="realsense2_camera",
+    #        executable="realsense2_camera_node",
+    #        parameters=[{"rgb_camera.profile", LaunchConfiguration("rgb_camera_profile")}],
+    #    )
 
     pc2scan = Node(
         package="depthimage_to_laserscan",
