@@ -107,18 +107,33 @@ def generate_launch_description():
         ],
     )
 
-    camera = Node(
-        package="realsense2_camera",
-        executable="realsense2_camera_node",
-        parameters=[{"rgb_camera.profile", LaunchConfiguration("rgb_camera_profile")}],
+    camera = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            [
+                os.path.join(
+                    get_package_share_directory("realsense2_camera"),
+                    "launch",
+                    "rs_launch.py",
+                )
+            ]
+        ),
+        launch_arguments={
+            "rgb_camera.profile": LaunchConfiguration("rgb_camera_profile")
+        }.items(),
     )
+
+#    camera = Node(
+#        package="realsense2_camera",
+#        executable="realsense2_camera_node",
+#        parameters=[{"rgb_camera.profile", LaunchConfiguration("rgb_camera_profile")}],
+#    )
 
     pc2scan = Node(
         package="depthimage_to_laserscan",
-        node_executable="depthimage_to_laserscan_node",
-        node_name="depthimage_to_laserscan_node",
+        executable="depthimage_to_laserscan_node",
+        name="depthimage_to_laserscan_node",
         remappings=[
-            ("depth", "/depth/image_rect_raw"),
+            ("depth", "/depth/image_raw"),
             ("depth_camera_info", "/depth/camera_info"),
         ],
         parameters=[param_config],
