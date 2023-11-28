@@ -19,16 +19,29 @@ def generate_launch_description():
     # !!! MAKE SURE YOU SET THE PACKAGE NAME CORRECTLY !!!
 
     package_name = "articubot_one"  # <--- CHANGE ME
+    package_path = get_package_share_directory(package_name)
 
+    # Params    
     rgb_camera_profile_arg = DeclareLaunchArgument(
         "rgb_camera_profile", default_value=TextSubstitution(text="640x480x30")
     )
 
+    twist_mux_params = os.path.join(
+        package_path, "config", "twist_mux.yaml"
+    )
+
+    controller_params = os.path.join(
+        package_path, "config", "my_controllers.yaml"
+    )
+
+    # Launch files
     rsp = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             [
                 os.path.join(
-                    get_package_share_directory(package_name), "launch", "rsp.launch.py"
+                    package_path, 
+                    "launch", 
+                    "rsp.launch.py"
                 )
             ]
         ),
@@ -39,7 +52,7 @@ def generate_launch_description():
         PythonLaunchDescriptionSource(
             [
                 os.path.join(
-                    get_package_share_directory(package_name),
+                    package_path,
                     "launch",
                     "joystick.launch.py",
                 )
@@ -47,9 +60,6 @@ def generate_launch_description():
         )
     )
 
-    twist_mux_params = os.path.join(
-        get_package_share_directory(package_name), "config", "twist_mux.yaml"
-    )
     twist_mux = Node(
         package="twist_mux",
         executable="twist_mux",
@@ -61,14 +71,10 @@ def generate_launch_description():
         ["ros2 param get --hide-type /robot_state_publisher robot_description"]
     )
 
-    controller_params_file = os.path.join(
-        get_package_share_directory(package_name), "config", "my_controllers.yaml"
-    )
-
     controller_manager = Node(
         package="controller_manager",
         executable="ros2_control_node",
-        parameters=[{"robot_description": robot_description}, controller_params_file],
+        parameters=[{"robot_description": robot_description}, controller_params],
     )
 
     delayed_controller_manager = TimerAction(period=3.0, actions=[controller_manager])
@@ -101,13 +107,11 @@ def generate_launch_description():
 
     face = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            [
-                os.path.join(
-                    get_package_share_directory(package_name),
-                    "launch",
-                    "face.launch.py",
-                )
-            ]
+            [os.path.join(
+                package_path,
+                "launch",
+                "face.launch.py",
+            )]
         )
     )
 

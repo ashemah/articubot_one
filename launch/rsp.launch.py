@@ -7,9 +7,6 @@ from launch.substitutions import LaunchConfiguration, Command
 from launch.actions import DeclareLaunchArgument
 from launch_ros.actions import Node
 
-import xacro
-
-
 def generate_launch_description():
 
     # Check if we're told to use sim time
@@ -19,7 +16,6 @@ def generate_launch_description():
     # Process the URDF file
     pkg_path = os.path.join(get_package_share_directory('articubot_one'))
     xacro_file = os.path.join(pkg_path,'description','robot.urdf.xacro')
-    # robot_description_config = xacro.process_file(xacro_file).toxml()
     robot_description_config = Command(['xacro ', xacro_file, ' use_ros2_control:=', use_ros2_control, ' sim_mode:=', use_sim_time])
     
     # Create a robot_state_publisher node
