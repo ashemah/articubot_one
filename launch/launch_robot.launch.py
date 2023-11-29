@@ -76,7 +76,15 @@ def generate_launch_description():
         parameters=[{"robot_description": robot_description}, controller_params],
     )
 
-    delayed_controller_manager = TimerAction(period=3.0, actions=[controller_manager])
+    # Launch the controller manager after the robot state publisher has started
+    delayed_controller_manager = RegisterEventHandler(
+        event_handler=OnProcessStart(
+            target_action=rsp,
+            on_start=[controller_manager],
+        )
+    )
+
+    # delayed_controller_manager = TimerAction(period=3.0, actions=[controller_manager])
 
     diff_drive_spawner = Node(
         package="controller_manager",
