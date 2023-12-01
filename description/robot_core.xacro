@@ -3,7 +3,6 @@
 
     <xacro:include filename="inertial_macros.xacro"/>
 
-
     <xacro:property name="chassis_length" value="0.230"/>
     <xacro:property name="chassis_width" value="0.200"/>
     <xacro:property name="chassis_height" value="0.150"/>
@@ -50,17 +49,16 @@
     <joint name="base_footprint_joint" type="fixed">
         <parent link="base_link"/>
         <child link="base_footprint"/>
-        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <origin xyz="0 0 0" rpy="0 0 ${pi}"/>
     </joint>
 
-    <link name="base_footprint">
-    </link>
+    <link name="base_footprint"/>
 
 
     <!-- CHASSIS LINK -->
 
     <joint name="chassis_joint" type="fixed">
-        <parent link="base_link"/>
+        <parent link="base_footprint"/>
         <child link="chassis"/>
         <origin xyz="${-wheel_offset_x} 0 ${-wheel_offset_z}"/>
     </joint>
@@ -135,7 +133,7 @@
             <geometry>
                 <cylinder radius="${wheel_radius}" length="${wheel_thickness}"/>
             </geometry>
-            <material name="blue"/>
+            <material name="red"/>
         </visual>
         <collision>
             <geometry>

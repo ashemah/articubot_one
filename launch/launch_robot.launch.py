@@ -20,6 +20,9 @@ def generate_launch_description():
     package_name = "articubot_one"  # <--- CHANGE ME
     package_path = get_package_share_directory(package_name)
 
+    use_sim_time = LaunchConfiguration('use_sim_time')
+    use_ros2_control = LaunchConfiguration('use_ros2_control')
+
     # Params    
     rgb_camera_profile_arg = DeclareLaunchArgument(
         "rgb_camera_profile", default_value=TextSubstitution(text="640x480x30")
@@ -34,17 +37,30 @@ def generate_launch_description():
     )
 
     # Launch files
-    rsp = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            [
-                os.path.join(
-                    package_path, 
-                    "launch", 
-                    "rsp.launch.py"
-                )
-            ]
-        ),
-        launch_arguments={"use_sim_time": "false", "use_ros2_control": "true"}.items(),
+    # rsp = IncludeLaunchDescription(
+    #     PythonLaunchDescriptionSource(
+    #         [
+    #             os.path.join(
+    #                 package_path, 
+    #                 "launch", 
+    #                 "rsp.launch.py"
+    #             )
+    #         ]
+    #     ),
+    #     launch_arguments={"use_sim_time": "false", "use_ros2_control": "true"}.items(),
+    # )
+
+    robot_description_template = os.path.join(package_path,'description','robot.urdf.xacro')
+    robot_description = Command(['xacro ', robot_description_template, ' use_ros2_control:=', use_ros2_control, ' sim_mode:=', use_sim_time])
+    
+    # Create a robot_state_publisher node
+    rsp_params = {'robot_description': robot_description, 'use_sim_time': use_sim_time}
+    rsp = Node(
+        package='robot_state_publisher',
+        executable='robot_state_publisher',
+        name="robot_state_publisher",
+        output='screen',
+        parameters=[rsp_params]
     )
 
     joystick = IncludeLaunchDescription(
@@ -54,6 +70,18 @@ def generate_launch_description():
                     package_path,
                     "launch",
                     "joystick.launch.py",
+                )
+            ]
+        )
+    )
+
+    lidar = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            [
+                os.path.join(
+                    package_path,
+                    "launch",
+                    "rplidar.launch.py",
                 )
             ]
         )
@@ -84,7 +112,7 @@ def generate_launch_description():
         )
     )
 
-    # delayed_controller_manager = TimerAction(period=3.0, actions=[controller_manager])
+#    delayed_controller_manager = TimerAction(period=4.0, actions=[controller_manager])
 
     diff_drive_spawner = Node(
         package="controller_manager",
@@ -153,9 +181,18 @@ def generate_launch_description():
     # Launch them all!
     return LaunchDescription(
         [
+            DeclareLaunchArgument(
+                'use_sim_time',
+                default_value='false',
+                description='Use sim time if true'),
+            DeclareLaunchArgument(
+                'use_ros2_control',
+                default_value='true',
+                description='Use ros2_control if true'),
             rgb_camera_profile_arg,
             rsp,
             joystick,
+            lidar,
             twist_mux,
             # camera,
             # pc2scan,
