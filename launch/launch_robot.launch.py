@@ -36,6 +36,10 @@ def generate_launch_description():
         package_path, "config", "my_controllers.yaml"
     )
 
+    sensor_fusion_params = os.path.join(
+        package_path, "config", "sensor_fusion.yaml"
+    )
+
     # Launch files
     # rsp = IncludeLaunchDescription(
     #     PythonLaunchDescriptionSource(
@@ -162,6 +166,16 @@ def generate_launch_description():
         arguments=[],
     )
 
+    sensor_fusion = Node(
+        package='robot_localization',
+        executable='ekf_node',
+        name='ekf_filter_node',
+        output='screen',
+        parameters=[sensor_fusion_params, 
+        {'use_sim_time': False}]
+    )
+
+
     # Code for delaying a node (I haven't tested how effective it is)
     #
     # First add the below lines to imports
@@ -199,6 +213,7 @@ def generate_launch_description():
             delayed_controller_manager,
             delayed_diff_drive_spawner,
             delayed_joint_broad_spawner,
+            sensor_fusion,
             face,
         ]
     )
