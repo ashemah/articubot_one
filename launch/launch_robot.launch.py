@@ -110,6 +110,7 @@ def generate_launch_description():
         package="controller_manager",
         executable="ros2_control_node",
         parameters=[{"robot_description": robot_description}, controller_params],
+        remappings=[("/odom", "/wheel/odom")],
     )
 
     # Launch the controller manager after the robot state publisher has started
@@ -175,7 +176,8 @@ def generate_launch_description():
         executable='ekf_node',
         name='ekf_filter_node',
         output='screen',
-        parameters=[sensor_fusion_params, 
+        arguments=['--ros-args', '--log-level', 'DEBUG'],
+        parameters=[sensor_fusion_params,
         {'use_sim_time': False}]
     )
 
