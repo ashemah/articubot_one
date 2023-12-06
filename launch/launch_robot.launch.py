@@ -125,7 +125,7 @@ def generate_launch_description():
 
     diff_drive_spawner = Node(
         package="controller_manager",
-        executable="spawner.py",
+        executable="spawner",
         arguments=["diff_cont"],
     )
 
@@ -138,7 +138,7 @@ def generate_launch_description():
 
     joint_broad_spawner = Node(
         package="controller_manager",
-        executable="spawner.py",
+        executable="spawner",
         arguments=["joint_broad"],
     )
 
@@ -176,7 +176,7 @@ def generate_launch_description():
         executable='ekf_node',
         name='ekf_filter_node',
         output='screen',
-        arguments=['--ros-args', '--log-level', 'DEBUG'],
+        #arguments=['--ros-args', '--log-level', 'DEBUG'],
         parameters=[sensor_fusion_params,
         {'use_sim_time': False}]
     )
