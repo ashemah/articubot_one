@@ -36,16 +36,16 @@ bno055:
     data_query_frequency: 100
     calib_status_frequency: 0.1
     frame_id: "bno055"
-    operation_mode: 0x0C
-    placement_axis_remap: "P2"
+    operation_mode: 12
+    placement_axis_remap: "P0"
     acc_factor: 100.0
     mag_factor: 16000000.0
     gyr_factor: 900.0
     grav_factor: 100.0
-    set_offsets: false # set to true to use offsets below
-    offset_acc: [0xFFEC, 0x00A5, 0xFFE8]
-    offset_mag: [0xFFB4, 0xFE9E, 0x027D]
-    offset_gyr: [0x0002, 0xFFFF, 0xFFFF]
+    set_offsets: true # set to true to use offsets below
+    offset_acc: [2, -46, -27]
+    offset_mag: [-822, -126, 346]
+    offset_gyr: [-3, -1, 0]
     ## Sensor standard deviation [x,y,z]
     ## Used to calculate covariance matrices
     ## defaults are used if parameters below are not provided

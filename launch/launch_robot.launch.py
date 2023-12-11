@@ -109,8 +109,8 @@ def generate_launch_description():
     controller_manager = Node(
         package="controller_manager",
         executable="ros2_control_node",
+        output='screen',
         parameters=[{"robot_description": robot_description}, controller_params],
-        remappings=[("/odom", "/wheel/odom")],
     )
 
     # Launch the controller manager after the robot state publisher has started
