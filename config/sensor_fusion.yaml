@@ -6,7 +6,7 @@ ekf_filter_node:
     # The frequency, in Hz, at which the filter will output a position estimate. Note that the filter will not begin
     # computation until it receives at least one message from one of the inputs. It will then run continuously at the
     # frequency specified here, regardless of whether it receives more measurements. Defaults to 30 if unspecified.
-    frequency: 20.0
+    frequency: 60.0
 
     # The period, in seconds, after which we consider a sensor to have timed out. In this event, we carry out a predict
     # cycle on the EKF without correcting it. This parameter can be thought of as the minimum frequency with which the
@@ -94,13 +94,13 @@ ekf_filter_node:
         false,
         false,
         false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
         true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
         false,
         false,
         false,
@@ -159,12 +159,12 @@ ekf_filter_node:
         false,
         false,
         false,
+        true,
+        true,
         false,
         false,
         false,
-        false,
-        false,
-        false,
+        true,
       ]
 
     #        [x_pos   , y_pos    , z_pos,
@@ -175,12 +175,12 @@ ekf_filter_node:
 
     imu0_nodelay: true
     imu0_differential: false
-    imu0_relative: false
-    imu0_queue_size: 5
+    imu0_relative: true
+    imu0_queue_size: 7
 
-    imu0_pose_rejection_threshold: 0.8 # Note the difference in parameter names
-    imu0_twist_rejection_threshold: 0.8 #
-    imu0_linear_acceleration_rejection_threshold: 0.8 #
+    #imu0_pose_rejection_threshold: 0.8 # Note the difference in parameter names
+    #imu0_twist_rejection_threshold: 0.8 #
+    #imu0_linear_acceleration_rejection_threshold: 0.8 #
 
     # [ADVANCED] Some IMUs automatically remove acceleration due to gravity, and others don't. If yours doesn't, please set
     # this to true, and *make sure* your data conforms to REP-103, specifically, that the data is in ENU frame.

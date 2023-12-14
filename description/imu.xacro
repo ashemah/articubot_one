@@ -4,7 +4,7 @@
     <joint name="imu_joint" type="fixed">
         <parent link="chassis"/>
         <child link="bno055"/>
-        <origin xyz="0 0 0.2" rpy="0 0 0"/>
+        <origin xyz="0 0 0.2" rpy="0 0 -1.5708"/>
     </joint>
 
     <link name="bno055">
