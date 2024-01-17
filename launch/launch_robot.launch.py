@@ -40,9 +40,9 @@ def generate_launch_description():
         package_path, "config", "sensor_fusion.yaml"
     )
 
-    imu_params = os.path.join(
-        package_path, "config", "bno055_params_i2c.yaml"
-    )
+    # imu_params = os.path.join(
+    #     package_path, "config", "bno055_params_i2c.yaml"
+    # )
 
     # Launch files
     # rsp = IncludeLaunchDescription(
@@ -182,11 +182,11 @@ def generate_launch_description():
     )
 
     # BNO055
-    imu = Node(
-        package="bno055",
-        executable="bno055",
-        parameters=[imu_params],
-    )
+    # imu = Node(
+    #     package="bno055",
+    #     executable="bno055",
+    #     parameters=[imu_params],
+    # )
 
 
     # Code for delaying a node (I haven't tested how effective it is)
@@ -226,7 +226,7 @@ def generate_launch_description():
             delayed_controller_manager,
             delayed_diff_drive_spawner,
             delayed_joint_broad_spawner,
-            imu,
+            # imu,
             sensor_fusion,
             face,
         ]

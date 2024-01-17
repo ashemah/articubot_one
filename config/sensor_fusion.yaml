@@ -147,7 +147,7 @@ ekf_filter_node:
     # odom0_pose_rejection_threshold: 5.0
     # odom0_twist_rejection_threshold: 1.0
 
-    imu0: bno055/imu
+    imu0: /imu
     imu0_config:
       [
         false,
@@ -155,16 +155,16 @@ ekf_filter_node:
         false,
         false,
         false,
-        true,
+        false,
+        false,
+        false,
         false,
         false,
         false,
         true,
-        true,
         false,
         false,
         false,
-        true,
       ]
 
     #        [x_pos   , y_pos    , z_pos,
@@ -178,9 +178,9 @@ ekf_filter_node:
     imu0_relative: true
     imu0_queue_size: 7
 
-    #imu0_pose_rejection_threshold: 0.8 # Note the difference in parameter names
-    #imu0_twist_rejection_threshold: 0.8 #
-    #imu0_linear_acceleration_rejection_threshold: 0.8 #
+    imu0_pose_rejection_threshold: 0.8 # Note the difference in parameter names
+    imu0_twist_rejection_threshold: 0.8 #
+    imu0_linear_acceleration_rejection_threshold: 0.8 #
 
     # [ADVANCED] Some IMUs automatically remove acceleration due to gravity, and others don't. If yours doesn't, please set
     # this to true, and *make sure* your data conforms to REP-103, specifically, that the data is in ENU frame.
