@@ -40,29 +40,12 @@ def generate_launch_description():
         package_path, "config", "sensor_fusion.yaml"
     )
 
-    # imu_params = os.path.join(
-    #     package_path, "config", "bno055_params_i2c.yaml"
-    # )
-
-    # Launch files
-    # rsp = IncludeLaunchDescription(
-    #     PythonLaunchDescriptionSource(
-    #         [
-    #             os.path.join(
-    #                 package_path, 
-    #                 "launch", 
-    #                 "rsp.launch.py"
-    #             )
-    #         ]
-    #     ),
-    #     launch_arguments={"use_sim_time": "false", "use_ros2_control": "true"}.items(),
-    # )
-
     robot_description_template = os.path.join(package_path,'description','robot.urdf.xacro')
     robot_description = Command(['xacro ', robot_description_template, ' use_ros2_control:=', use_ros2_control, ' sim_mode:=', use_sim_time])
     
-    # Create a robot_state_publisher node
     rsp_params = {'robot_description': robot_description, 'use_sim_time': use_sim_time}
+
+    # Create a robot_state_publisher node
     rsp = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
@@ -93,6 +76,14 @@ def generate_launch_description():
                 )
             ]
         )
+    )
+
+    micro_ros_agent = Node(
+        package='micro_ros_agent',
+        executable='micro_ros_agent',
+        name="micro_ros_agent",
+        output='screen',
+        arguments=['serial', '--dev', '/dev/ttyACM1']
     )
 
     twist_mux = Node(
@@ -181,14 +172,6 @@ def generate_launch_description():
         {'use_sim_time': False}]
     )
 
-    # BNO055
-    # imu = Node(
-    #     package="bno055",
-    #     executable="bno055",
-    #     parameters=[imu_params],
-    # )
-
-
     # Code for delaying a node (I haven't tested how effective it is)
     #
     # First add the below lines to imports
@@ -226,7 +209,7 @@ def generate_launch_description():
             delayed_controller_manager,
             delayed_diff_drive_spawner,
             delayed_joint_broad_spawner,
-            # imu,
+            micro_ros_agent,
             sensor_fusion,
             face,
         ]
