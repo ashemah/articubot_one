@@ -40,6 +40,10 @@ def generate_launch_description():
         package_path, "config", "sensor_fusion.yaml"
     )
 
+    depth2scan_params = os.path.join(
+        package_path, "config", "depth2scan_params.yaml"
+    )
+
     robot_description_template = os.path.join(package_path,'description','robot.urdf.xacro')
     robot_description = Command(['xacro ', robot_description_template, ' use_ros2_control:=', use_ros2_control, ' sim_mode:=', use_sim_time])
     
@@ -78,13 +82,13 @@ def generate_launch_description():
         )
     )
 
-    micro_ros_agent = Node(
-        package='micro_ros_agent',
-        executable='micro_ros_agent',
-        name="micro_ros_agent",
-        output='screen',
-        arguments=['serial', '--dev', '/dev/ttyACM1']
-    )
+    # micro_ros_agent = Node(
+    #     package='micro_ros_agent',
+    #     executable='micro_ros_agent',
+    #     name="micro_ros_agent",
+    #     output='screen',
+    #     arguments=['serial', '--dev', '/dev/serial/by-id/usb-Espressif_USB_JTAG_serial_debug_unit_DC:54:75:D8:35:68-if00']
+    # )
 
     twist_mux = Node(
         package="twist_mux",
@@ -156,10 +160,13 @@ def generate_launch_description():
         parameters=[{"rgb_camera.profile", LaunchConfiguration("rgb_camera_profile")}],
     )
 
-    pc2scan = Node(
-        package="pointcloud_to_laserscan",
-        executable="pointcloud_to_laserscan_node",
-        arguments=[],
+    depth2scan = Node(
+        package='depthimage_to_laserscan',
+        executable='depthimage_to_laserscan_node',
+        name='depthimage_to_laserscan',
+        remappings=[('depth', '/camera/camera/depth/image_rect_raw'),
+                    ('depth_camera_info', '/camera/camera/depth/camera_info')],
+        parameters=[depth2scan_params]
     )
 
     sensor_fusion = Node(
@@ -202,14 +209,14 @@ def generate_launch_description():
             rgb_camera_profile_arg,
             rsp,
             joystick,
-            lidar,
+            # lidar,
             twist_mux,
             # camera,
-            # pc2scan,
+            depth2scan,
             delayed_controller_manager,
             delayed_diff_drive_spawner,
             delayed_joint_broad_spawner,
-            micro_ros_agent,
+            # micro_ros_agent,
             sensor_fusion,
             face,
         ]
