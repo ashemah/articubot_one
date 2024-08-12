@@ -212,7 +212,7 @@ def generate_launch_description():
             # lidar,
             twist_mux,
             # camera,
-            depth2scan,
+            # depth2scan,
             delayed_controller_manager,
             delayed_diff_drive_spawner,
             delayed_joint_broad_spawner,
