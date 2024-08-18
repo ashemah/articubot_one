@@ -70,16 +70,22 @@ def generate_launch_description():
         )
     )
 
-    lidar = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            [
-                os.path.join(
-                    package_path,
-                    "launch",
-                    "rplidar.launch.py",
-                )
-            ]
-        )
+    lidar = Node(
+        package='ldlidar_stl_ros2',
+        executable='ldlidar_stl_ros2_node',
+        name='LD19',
+        output='screen',
+        parameters=[
+            {'product_name': 'LDLiDAR_LD19'},
+            {'topic_name': 'scan'},
+            {'frame_id': 'laser_frame'},
+            {'port_name': '/dev/ttyUSB0'},
+            {'port_baudrate': 230400},
+            {'laser_scan_dir': True},
+            {'enable_angle_crop_func': False},
+            {'angle_crop_min': 135.0},
+            {'angle_crop_max': 225.0}
+        ]
     )
 
     # micro_ros_agent = Node(
@@ -209,7 +215,7 @@ def generate_launch_description():
             rgb_camera_profile_arg,
             rsp,
             joystick,
-            # lidar,
+            lidar,
             twist_mux,
             # camera,
             # depth2scan,
