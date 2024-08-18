@@ -88,13 +88,13 @@ def generate_launch_description():
         ]
     )
 
-    # micro_ros_agent = Node(
-    #     package='micro_ros_agent',
-    #     executable='micro_ros_agent',
-    #     name="micro_ros_agent",
-    #     output='screen',
-    #     arguments=['serial', '--dev', '/dev/serial/by-id/usb-Espressif_USB_JTAG_serial_debug_unit_DC:54:75:D8:35:68-if00']
-    # )
+    micro_ros_agent = Node(
+        package='micro_ros_agent',
+        executable='micro_ros_agent',
+        name="micro_ros_agent",
+        output='screen',
+        arguments=['serial', '--dev', '/dev/serial/by-id/usb-Espressif_USB_JTAG_serial_debug_unit_DC:54:75:D8:35:68-if00']
+    )
 
     twist_mux = Node(
         package="twist_mux",
@@ -160,20 +160,20 @@ def generate_launch_description():
         )
     )
 
-    camera = Node(
-        package="realsense2_camera",
-        executable="realsense2_camera_node",
-        parameters=[{"rgb_camera.profile", LaunchConfiguration("rgb_camera_profile")}],
-    )
+    # camera = Node(
+    #     package="realsense2_camera",
+    #     executable="realsense2_camera_node",
+    #     parameters=[{"rgb_camera.profile", LaunchConfiguration("rgb_camera_profile")}],
+    # )
 
-    depth2scan = Node(
-        package='depthimage_to_laserscan',
-        executable='depthimage_to_laserscan_node',
-        name='depthimage_to_laserscan',
-        remappings=[('depth', '/camera/camera/depth/image_rect_raw'),
-                    ('depth_camera_info', '/camera/camera/depth/camera_info')],
-        parameters=[depth2scan_params]
-    )
+    # depth2scan = Node(
+    #     package='depthimage_to_laserscan',
+    #     executable='depthimage_to_laserscan_node',
+    #     name='depthimage_to_laserscan',
+    #     remappings=[('depth', '/camera/camera/depth/image_rect_raw'),
+    #                 ('depth_camera_info', '/camera/camera/depth/camera_info')],
+    #     parameters=[depth2scan_params]
+    # )
 
     sensor_fusion = Node(
         package='robot_localization',
@@ -222,7 +222,7 @@ def generate_launch_description():
             delayed_controller_manager,
             delayed_diff_drive_spawner,
             delayed_joint_broad_spawner,
-            # micro_ros_agent,
+            micro_ros_agent,
             sensor_fusion,
             face,
         ]
