@@ -160,11 +160,14 @@ def generate_launch_description():
         )
     )
 
-    # camera = Node(
-    #     package="realsense2_camera",
-    #     executable="realsense2_camera_node",
-    #     parameters=[{"rgb_camera.profile", LaunchConfiguration("rgb_camera_profile")}],
-    # )
+    camera = Node(
+        package="camera_ros",
+        executable="camera_node",
+        parameters=[{
+            "width": 640, 
+            "height": 480,
+        }]
+    )
 
     # depth2scan = Node(
     #     package='depthimage_to_laserscan',
@@ -217,12 +220,12 @@ def generate_launch_description():
             joystick,
             lidar,
             twist_mux,
-            # camera,
+            camera,
             # depth2scan,
             delayed_controller_manager,
             delayed_diff_drive_spawner,
             delayed_joint_broad_spawner,
-            micro_ros_agent,
+            # micro_ros_agent,
             sensor_fusion,
             face,
         ]
