@@ -225,7 +225,7 @@ def generate_launch_description():
             delayed_controller_manager,
             delayed_diff_drive_spawner,
             delayed_joint_broad_spawner,
-            # micro_ros_agent,
+            micro_ros_agent,
             sensor_fusion,
             face,
         ]

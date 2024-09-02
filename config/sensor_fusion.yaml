@@ -171,12 +171,12 @@ ekf_filter_node:
     # if unspecified, effectively making this parameter required for each sensor.
     odom1_config:
       [
-        true,
-        true,
+        false, #true,
+        false, #true,
         false,
         false,
         false,
-        true,
+        false, #true,
         false,
         false,
         false,
@@ -211,7 +211,7 @@ ekf_filter_node:
     # data is converted to velocity data by differentiating the absolute pose measurements. These velocities are then
     # integrated as usual. NOTE: this only applies to sensors that provide pose measurements; setting differential to true
     # for twist measurements has no effect.
-    odom1_differential: true
+    odom1_differential: false
 
     # [ADVANCED] When the node starts, if this parameter is true, then the first measurement is treated as a "zero point"
     # for all future measurements. While you can achieve the same effect with the differential paremeter, the key
@@ -229,7 +229,7 @@ ekf_filter_node:
     # odom1_pose_rejection_threshold: 5.0
     # odom1_twist_rejection_threshold: 1.0
 
-    imu0: /imu/data1
+    imu0: /imu/data
     imu0_config:
       [
         false,
@@ -237,10 +237,10 @@ ekf_filter_node:
         false,
         false,
         false,
-        true,
-        true,
-        true,
-        true,
+        false, #true,
+        false, #true,
+        false, #true,
+        false, #true,
         false,
         false,
         false,
