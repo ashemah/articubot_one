@@ -107,7 +107,11 @@ ukf_filter_node:
     # If you have high-frequency data or are running with a low frequency parameter value, then you may want to increase
     # the size of the subscription queue so that more measurements are fused.
     odom0_queue_size: 5
-    odom0_nodelay: false
+
+    # [ADVANCED] Large messages in ROS can exhibit strange behavior when they arrive at a high frequency. This is a result
+    # of Nagle's algorithm. This option tells the ROS subscriber to use the tcpNoDelay option, which disables Nagle's
+    # algorithm.
+    odom0_nodelay: true
 
     # [ADVANCED] When measuring one pose variable with two sensors, a situation can arise in which both sensors under-
     # report their covariances. This can lead to the filter rapidly jumping back and forth between each measurement as they
@@ -130,7 +134,7 @@ ukf_filter_node:
     # base_link_frame, the rotation of base_link will be coupled into the translation of child_frame.
     # Set to true for fusing secondary odometry sources that are rigidly connected to base_link but has a non-zero
     # offset from base_link.
-    odom0_pose_use_child_frame: true
+    odom0_pose_use_child_frame: false
 
     # [ADVANCED] If your data is subject to outliers, use these threshold settings, expressed as Mahalanobis distances, to
     # control how far away from the current vehicle state a sensor measurement is permitted to be. Each defaults to
