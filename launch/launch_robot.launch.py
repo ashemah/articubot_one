@@ -180,8 +180,8 @@ def generate_launch_description():
 
     sensor_fusion = Node(
         package='robot_localization',
-        executable='ukf_node',
-        name='ukf_filter_node',
+        executable='ekf_node',
+        name='ekf_filter_node',
         output='screen',
         parameters=[sensor_fusion_params,
         {'use_sim_time': False}]
